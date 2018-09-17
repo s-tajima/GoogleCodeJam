@@ -64,5 +64,8 @@ func flip(p byte) byte {
 	if p == '+' {
 		return '-'
 	}
-	return '+'
+	if p == '-' {
+		return '+'
+	}
+	return '#'
 }
