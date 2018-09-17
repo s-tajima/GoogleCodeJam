@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -18,14 +20,16 @@ func main() {
 	}
 
 	scanner := bufio.NewScanner(file)
-	_ = scanner.Scan() // Skip number of test cases.
-	for scanner.Scan() {
+	scanner.Scan() // Number of test cases.
+	num, _ := strconv.Atoi(scanner.Text())
+	for i := 1; i <= num; i++ {
+		scanner.Scan()
 		sol := solver{}
 		err := sol.parse(scanner.Text())
 		if err != nil {
 			log.Fatal(err)
 		}
-		sol.solve()
+		fmt.Printf("Case #%d: %s\n", i, sol.solve())
 	}
 }
 
