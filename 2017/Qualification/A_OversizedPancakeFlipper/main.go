@@ -10,7 +10,7 @@ import (
 
 func main() {
 	path := "./sample.in"
-	if len(os.Args) > 2 {
+	if len(os.Args) >= 2 {
 		path = os.Args[1]
 	}
 
