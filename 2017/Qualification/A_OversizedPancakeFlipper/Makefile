@@ -1,5 +1,5 @@
 run:
-	go run main.go
+	go run main.go solver.go
 
 build:
 	go build -o solver

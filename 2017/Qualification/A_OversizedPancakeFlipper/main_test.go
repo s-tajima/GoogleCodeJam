@@ -4,6 +4,5 @@ import (
 	"testing"
 )
 
-func TestEcho(t *testing.T) {
-	echo("test")
+func TestReadFile(t *testing.T) {
 }
