@@ -49,6 +49,31 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestSolve(t *testing.T) {
+	tests := []struct {
+		n uint64
+		k uint64
+		expect string
+	}{
+		{4, 2, "1 0"},
+		{5, 2, "1 0"},
+		{6, 2, "1 1"},
+		{1000, 1000, "0 0"},
+		{1000, 1, "500 499"},
+	}
+	for _, test := range tests {
+		sol := solver{}
+		sol.n = test.n
+		sol.k = test.k
+
+		actual := sol.solve()
+
+		if actual != test.expect {
+			t.Errorf("got %s, want %s", actual, test.expect)
+		}
+	}
+}
+
 func TestSelectSeq(t *testing.T) {
 	tests := []struct {
 		seqs  map[uint64]uint64
