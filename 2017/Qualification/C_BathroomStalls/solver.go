@@ -33,7 +33,7 @@ func (sol *solver) parse(str string) error {
 }
 
 func (sol *solver) solve() string {
-	seqs := map[int]int{sol.n:1}
+	seqs := map[int]int{sol.n: 1}
 
 	max := 0
 	min := 0
@@ -42,10 +42,9 @@ func (sol *solver) solve() string {
 		var seq int
 		seq, seqs = selectSeq(seqs)
 		max, min = split(seq)
-		seqs = addSeq(max, seqs)
-		seqs = addSeq(min, seqs)
+		seqs[max]++
+		seqs[min]++
 	}
-
 	return fmt.Sprintf("%d %d", max, min)
 }
 
@@ -58,14 +57,13 @@ func split(seq int) (int, int) {
 	return max, min
 }
 
-func addSeq(seq int, seqs map[int]int) (map[int]int) {
-	seqs[seq]++
-	return seqs
-}
-
 func selectSeq(seqs map[int]int) (int, map[int]int) {
 	max := findMax(seqs)
 	seqs[max]--
+
+	if seqs[max] <= 0 {
+		delete(seqs, max)
+	}
 
 	return max, seqs
 }
