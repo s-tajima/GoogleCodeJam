@@ -7,8 +7,8 @@ import (
 func TestParse(t *testing.T) {
 	tests := []struct {
 		in string
-		n  int
-		k  int
+		n  uint64
+		k  uint64
 	}{
 		{"4 2", 4, 2},
 		{"1000 1", 1000, 1},
@@ -28,9 +28,9 @@ func TestParse(t *testing.T) {
 
 func TestSplit(t *testing.T) {
 	tests := []struct {
-		in  int
-		max int
-		min int
+		in  uint64
+		max uint64
+		min uint64
 	}{
 		{1, 0, 0},
 		{2, 1, 0},
@@ -51,22 +51,44 @@ func TestSplit(t *testing.T) {
 
 func TestSelectSeq(t *testing.T) {
 	tests := []struct {
-		seqs  map[int]int
-		seq   int
-		rSeqs map[int]int
+		seqs  map[uint64]uint64
+		max   uint64
+		num   uint64
+		rSeqs map[uint64]uint64
 	}{
-		{map[int]int{1: 2}, 1, map[int]int{1: 1}},
-		{map[int]int{1: 2, 2: 1}, 2, map[int]int{1: 2}},
+		{map[uint64]uint64{1: 2}, 1, 2, map[uint64]uint64{}},
+		{map[uint64]uint64{1: 2, 2: 1}, 2, 1, map[uint64]uint64{1: 2}},
 	}
 	for _, test := range tests {
-		seq, rSeqs := selectSeq(test.seqs)
+		max, num, rSeqs := selectSeq(test.seqs)
 
-		if seq != test.seq {
-			t.Errorf("got %d, want %d", seq, test.seq)
+		if max != test.max {
+			t.Errorf("got %d, want %d", max, test.max)
+		}
+
+		if num != test.num {
+			t.Errorf("got %d, want %d", num, test.num)
 		}
 
 		if rSeqs[1] != test.rSeqs[1] {
 			t.Errorf("got %d, want %d", rSeqs, test.rSeqs)
+		}
+	}
+}
+
+func TestFindMax(t *testing.T) {
+	tests := []struct {
+		seqs map[uint64]uint64
+		max  uint64
+	}{
+		{map[uint64]uint64{1: 2}, 1},
+		{map[uint64]uint64{1: 2, 2: 1}, 2},
+	}
+	for _, test := range tests {
+		max := findMax(test.seqs)
+
+		if max != test.max {
+			t.Errorf("got %d, want %d", max, test.max)
 		}
 	}
 }
